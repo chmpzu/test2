@@ -443,14 +443,14 @@ const SOP_LIBRARY = [
   {
     id: "kema-sales-order-item-fulfillment-upload",
     title: "KEMA Sales Order and Item Fulfillment Upload",
-    file: "SOP - KEMA SALES ORDER AND ITEM FULFILLMENT UPLOAD.htm",
+    file: "sops/SOP - KEMA SALES ORDER AND ITEM FULFILLMENT UPLOAD.htm",
     note: "Word export (HTML)",
     tags: "kema sales order item fulfillment upload"
   },
   {
     id: "kema-tracking-number-fulfilled-skus",
     title: "KEMA Tracking Number and Fulfilled SKUs",
-    file: "KEMA TRACKING NUMBER AND FULFILLED SKUS.htm",
+    file: "sops/KEMA TRACKING NUMBER AND FULFILLED SKUS.htm",
     note: "Word export (HTML)",
     tags: "kema tracking number fulfilled skus"
   },
@@ -654,7 +654,7 @@ function openSop(id){
   if (findInput) findInput.value = '';
   if (findClear) findClear.disabled = true;
 
-  frame.src = sop.file;
+  frame.src = new URL(sop.file, window.location.href).href;
 
   frame.onload = ()=>{
     try{ ensureSopIframeStyles(frame); }catch(_e){}
