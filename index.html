@@ -25,9 +25,9 @@ body.dark .sop-item:hover{box-shadow:0 14px 36px rgba(9,12,18,.7)}
 .sop-modal-actions{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
 .sop-close{border:1px solid rgba(255,255,255,.55);background:transparent;color:#fff;padding:.38rem .7rem;border-radius:10px;cursor:pointer}
 .sop-close:hover{filter:brightness(1.05)}
-.sop-modal-body{padding:12px;min-height:0;display:flex;flex-direction:column;gap:10px}
+.sop-modal-body{padding:12px;min-height:0;display:flex;flex-direction:column;gap:10px;flex:1}
 .sop-modal-body .iframe-wrap{flex:1;min-height:0}
-.sop-modal-body iframe{height:100%}
+.sop-modal-body iframe{height:100%;width:100%;border:0;display:block;background:#fff}
 
 /* Find-in-document (inside overlay) */
 .sop-find{display:flex;align-items:center;gap:.5rem}
@@ -614,6 +614,13 @@ function ensureSopIframeStyles(frame){
     const st = doc.createElement('style');
     st.id = 'kp360-sop-mark-style';
     st.textContent = `
+      /* Reader-ish defaults to make Word-export HTML look normal inside an iframe */
+      html,body{ height:auto !important; background:#fff !important; }
+      body{ margin:0 !important; padding:16px !important; max-width: 980px; box-sizing:border-box; }
+      img,table{ max-width:100% !important; height:auto !important; }
+      pre{ white-space:pre-wrap; word-break:break-word; }
+
+      /* Find highlighting */
       mark.kp360-sop-mark{ background: #ffe58f; padding: 0 .1em; border-radius:.2em; }
       mark.kp360-sop-mark.active{ outline: 2px solid #f59e0b; }
     `;
