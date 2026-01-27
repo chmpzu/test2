@@ -727,7 +727,10 @@ function openSop(id){
 }
 
 /* ----- Init + Search ----- */
+let SOP_LIBRARY_INITED = false;
 function initSopLibrary(){
+  if (SOP_LIBRARY_INITED) return;
+  SOP_LIBRARY_INITED = true;
   const { overlay, closeBtn, findInput, findClear } = sopEls();
 
   // Render cards
@@ -1200,6 +1203,9 @@ document.addEventListener('DOMContentLoaded', () => {
   else { loadTopPerformers(false); }
 
   setActive(initial);
+
+  // Ensure SOP library search works even when SOPs are visible within the Home view
+  if (document.getElementById('sopLibrarySearch')) initSopLibrary();
 
   wireGlobalSearch();
 
