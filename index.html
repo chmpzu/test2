@@ -28,6 +28,7 @@ body.dark .sop-item:hover{box-shadow:0 14px 36px rgba(9,12,18,.7)}
 .sop-modal-body{padding:12px;min-height:0;display:flex;flex-direction:column;gap:10px;flex:1}
 .sop-modal-body .iframe-wrap{flex:1;min-height:0}
 .sop-modal-body iframe{height:100%;width:100%;border:0;display:block;background:#fff}
+#sopOverlayMeta { display:none; }
 
 /* Find-in-document (inside overlay) */
 .sop-find{display:flex;align-items:center;gap:.5rem}
@@ -39,7 +40,6 @@ body.dark .sop-item:hover{box-shadow:0 14px 36px rgba(9,12,18,.7)}
     <div class="sop-head">
       <div>
         <h2 style="margin:0">SOPs</h2>
-        <div class="res-sub" style="margin-top:.15rem">Browse and search SOPs. (Tip: you can keep exporting Word → HTML so images stay included.)</div>
       </div>
       <div class="sop-head-actions">
         <input id="sopLibrarySearch" type="search" placeholder="Search SOP library…" autocomplete="off" />
@@ -594,7 +594,6 @@ function renderSopCards(list){
     btn.dataset.sopId = sop.id;
     btn.innerHTML = `
       <div class="title">${sop.title}</div>
-      <div class="meta">${sop.note || ''}${sop.tags ? ' · ' + sop.tags : ''}</div>
     `;
     btn.addEventListener('click', ()=> openSop(sop.id));
     cards.appendChild(btn);
