@@ -5,23 +5,34 @@
 .sop-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .sop-head-actions{display:flex;align-items:center;gap:.5rem}
 .sop-head-actions input{min-width:min(420px,72vw);padding:.55rem .7rem;border:1px solid var(--border);border-radius:.6rem;background:var(--card);color:var(--ink)}
-.sop-layout{display:grid;grid-template-columns:320px 1fr;gap:12px;margin-top:1rem}
-@media (max-width:980px){.sop-layout{grid-template-columns:1fr}.sop-head-actions input{min-width:0;width:100%}}
-.sop-list{border:1px solid var(--border);border-radius:12px;background:var(--card);overflow:auto;max-height:calc(100vh - var(--header-h) - var(--footer-h) - 170px);padding:.5rem}
-.sop-item{width:100%;text-align:left;border:1px solid var(--border);background:var(--card);color:var(--ink);border-radius:12px;padding:.6rem .7rem;cursor:pointer;display:flex;flex-direction:column;gap:.15rem;margin:.45rem 0;transition:background .2s,border-color .2s,transform .1s}
-.sop-item:hover{transform:translateY(-1px);background:rgba(0,0,0,.03)}
-body.dark .sop-item:hover{background:rgba(255,255,255,.06)}
-.sop-item.active{border-color:rgba(59,130,246,.55);box-shadow:0 0 0 3px rgba(59,130,246,.18)}
-.sop-item .title{font-weight:800;font-size:.95rem;line-height:1.2}
-.sop-item .meta{font-size:.78rem;color:var(--ink-2)}
-.sop-view{min-width:0}
-.sop-view-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.sop-view-title{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}
-.sop-meta{font-size:.8rem;color:var(--ink-2)}
-.sop-find{display:flex;align-items:center;gap:.5rem}
-.sop-find input{min-width:min(360px,70vw);padding:.5rem .65rem;border:1px solid var(--border);border-radius:.6rem;background:var(--card);color:var(--ink)}
-@media (max-width:980px){.sop-find input{min-width:0;width:100%}.sop-find{width:100%}.sop-view-toolbar{align-items:stretch}}
+@media (max-width:980px){.sop-head-actions input{min-width:0;width:100%}}
 
+.sop-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:1rem}
+.sop-item{width:100%;text-align:left;border:1px solid var(--border);background:var(--card);color:var(--ink);border-radius:14px;padding:.85rem .9rem;cursor:pointer;display:flex;flex-direction:column;gap:.25rem;transition:transform .15s ease,box-shadow .15s ease,background .2s,border-color .2s;box-shadow:0 1px 10px rgba(0,0,0,.05)}
+.sop-item:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.10)}
+body.dark .sop-item:hover{box-shadow:0 14px 36px rgba(9,12,18,.7)}
+.sop-item.active{border-color:rgba(59,130,246,.55);box-shadow:0 0 0 3px rgba(59,130,246,.18)}
+.sop-item .title{font-weight:800;font-size:1rem;line-height:1.2}
+.sop-item .meta{font-size:.8rem;color:var(--ink-2);margin-top:.15rem}
+
+/* Overlay viewer */
+.sop-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:1100}
+.sop-overlay.visible{display:flex}
+.sop-modal{width:min(1100px,94%);height:min(86vh,920px);background:var(--card);color:var(--ink);border:1px solid var(--border);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.32);overflow:hidden;display:flex;flex-direction:column}
+.sop-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;background:linear-gradient(180deg,var(--brand),var(--brand-600));color:#fff}
+.sop-modal-title{display:flex;align-items:baseline;gap:.55rem;flex-wrap:wrap}
+.sop-modal-title .sop-meta{opacity:.92;font-size:.82rem}
+.sop-modal-actions{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.sop-close{border:1px solid rgba(255,255,255,.55);background:transparent;color:#fff;padding:.38rem .7rem;border-radius:10px;cursor:pointer}
+.sop-close:hover{filter:brightness(1.05)}
+.sop-modal-body{padding:12px;min-height:0;display:flex;flex-direction:column;gap:10px}
+.sop-modal-body .iframe-wrap{flex:1;min-height:0}
+.sop-modal-body iframe{height:100%}
+
+/* Find-in-document (inside overlay) */
+.sop-find{display:flex;align-items:center;gap:.5rem}
+.sop-find input{min-width:min(360px,64vw);padding:.5rem .65rem;border:1px solid var(--border);border-radius:.6rem;background:var(--card);color:var(--ink)}
+@media (max-width:980px){.sop-find input{min-width:0;width:100%}.sop-find{width:100%}}
 </style></head><body><!-- Passcode Gate --><div id="lockScreen" style=" position:fixed;top:0;left:0;width:100%;height:100%; background:var(--bg,#f9fafb);display:flex;flex-direction:column; align-items:center;justify-content:center;z-index:9999; font-family:Inter,Arial,sans-serif;text-align:center; transition:opacity .3s ease;"><div style=" background:var(--card,#fff);padding:2rem 2.5rem;border-radius:1rem; box-shadow:0 4px 12px rgba(0,0,0,.1);max-width:320px;width:90%;"><h2 style="margin:0 0 1rem;color:var(--ink,#111)">🔒 PO Hub Access</h2><p style="margin:.5rem 0 1.5rem;color:var(--ink-2,#555);font-size:.95rem"> Please enter the passcode to continue. </p><input id="passInput" placeholder="Enter passcode" style="padding:.6rem .8rem;border:1px solid var(--border,#ccc); border-radius:.5rem;width:100%;margin-bottom:1rem; background:var(--bg,#fff);color:var(--ink,#111);" type="password"/><button onclick="checkPasscode()" style=" padding:.6rem 1rem;width:100%;border:none;border-radius:.5rem; background:#2563eb;color:white;font-weight:600;cursor:pointer;"> Unlock </button><p id="errorMsg" style="color:#dc2626;display:none;margin-top:.75rem;font-size:.9rem;"> Wrong passcode. Try again. </p></div></div><!-- Header --><header class="site-header" id="header"><div class="container header-inner"><div class="brand" data-view="home" title="Go home"><img alt="KarParts360" src="https://raw.githubusercontent.com/purchase-order-team/Processors/main/path/to/photos/Default%20KarParts360%20LOGO%20Version%203.png"/><strong>PO TEAM</strong></div><nav class="primary-nav" id="primary-nav"><ul><li><a data-view="home" href="#">Home</a></li></ul><button aria-label="Toggle dark/light" class="icon-btn" id="themeToggle"></button></nav></div></header><!-- Hero/Home --><section class="hero page active" data-page="home"><div class="container"><h1>PO Hub — No Missing Pieces</h1><p>Unless someone forgot to submit the order.</p><!-- Global Search --><form class="search" onsubmit="event.preventDefault()" role="search"><input aria-label="Search" autocomplete="off" id="globalSearch" placeholder="Search tools, pages, keywords… (e.g., ‘SOP returns’, ‘marketplace KPI’, ‘supplier portal’)" type="search"><button id="searchBtn" type="submit">Search</button><div aria-label="Search results" class="results" id="searchResults" role="listbox"></div></input></form></div></section><main class="container page active" data-page="home"><section aria-label="Quick links" class="categories"><a class="category" data-view="po-projects" href="#"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 7.5a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7.5Z"></path><path d="M3 10h18"></path></svg></span><span class="title">PO Projects</span></a><a class="category" data-view="supplier-contacts" href="#"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="16" cy="8" r="3"></circle><path d="M3 20a5 5 0 0 1 10 0"></path><path d="M11 20a5 5 0 0 1 10 0"></path></svg></span><span class="title">Supplier Contacts</span></a><a class="category" data-view="email-templates" href="#"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="M3 7l9 6 9-6"></path></svg></span><span class="title">Email Templates</span></a><a class="category" data-view="schedule" href="#"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="18" rx="2" width="18" x="3" y="4"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></span><span class="title">Schedule</span></a><a class="category" data-view="task-monitoring" href="#"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 3h18v4H3z"></path><path d="M3 11h18v4H3z"></path><path d="M3 19h18v2H3z"></path></svg></span><span class="title">Task Monitoring</span></a><a class="category" data-view="tracker" href="#"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="16" rx="3" width="16" x="4" y="4"></rect><path d="M7.5 12.5l3 3 6-7"></path></svg></span><span class="title">Tracker</span></a><a class="category" data-view="marketplace-performance" href="#"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 19h18"></path><path d="M7 19V10"></path><path d="M12 19V5"></path><path d="M17 19V13"></path></svg></span><span class="title">Marketplace Performance</span></a><a class="category" data-view="top-performers" href="#"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M8 21h8M9 17h6m-8-9V4h10v4a5 5 0 0 1-10 0Z"></path></svg></span><span class="title">Top Performers</span></a><!-- NEW categories --><a class="category" data-view="po-spreadsheets" href="#" title="PO Spreadsheets"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="16" rx="2" width="18" x="3" y="4"></rect><path d="M7 8h10M7 12h10M7 16h6"></path></svg></span><span class="title">PO Spreadsheets</span></a><a class="category" data-view="po-tools" href="#" title="PO Tools"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M14 7l-5 5 3 3 5-5"></path><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L20 7l-3-3 1.5-1.5z"></path><path d="M2 22l6-2 8-8-4-4-8 8-2 6z"></path></svg></span><span class="title">PO Tools</span></a><a class="category" data-view="marketplaces" href="#" title="Marketplaces"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3 7h18l-2 12H5L3 7z"></path><path d="M16 7a4 4 0 0 1-8 0"></path></svg></span><span class="title">Marketplaces</span></a><a class="category" data-view="mailboxes" href="#" title="Mailboxes"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><rect height="14" rx="2" width="18" x="3" y="5"></rect><path d="M3 7l9 6 9-6"></path></svg></span><span class="title">Mailboxes</span></a><a class="category" data-view="supplier-websites" href="#" title="Supplier Websites"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"></path></svg></span><span class="title">Supplier Websites</span></a><!-- NEW: SOPs --><a class="category" data-view="sops" href="#" title="Standard Operating Procedures"><span class="icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 4h10l4 4v12a2 2 0 0 1-2 2H4z"></path><path d="M14 4v4h4"></path><path d="M7 12h8"></path><path d="M7 16h8"></path></svg></span><span class="title">SOPs</span></a></section></main><!-- Pages --><section class="container page" data-page="po-projects"><div class="iframe-wrap"><iframe loading="lazy" src="https://kp360-po.github.io/KPP/PO_Portal.html" title="PO Projects"></iframe></div></section><section class="container page" data-page="supplier-contacts"><div class="content"><div class="contacts-controls"><strong>Supplier Contacts</strong><input id="contactsSearch" placeholder="Search name, supplier, email, phone, notes…" type="search"/><label>Supplier: <select id="contactsSupplierFilter"><option value="">All</option></select></label><span class="contacts-status" id="contactsStatus">Loading…</span></div><div id="contactsTableWrap"></div><div class="error" id="contactsError" style="display:none"></div></div></section><section class="container page" data-page="email-templates"><div class="iframe-wrap"><iframe loading="lazy" src="https://kp360-po.github.io/KPP/EmailTemplates.html" title="Email Templates"></iframe></div></section><section class="container page" data-page="schedule"><div class="iframe-wrap"><iframe loading="lazy" src="https://netorgft5128391.sharepoint.com/:x:/s/POTEAM/EYDj32TObklAm3lXkm-i8nABDVhrVsumG3LWzLhfc9ODxw?e=FKdzui" title="Schedule"></iframe></div></section><section class="container page" data-page="task-monitoring"><div class="iframe-wrap"><iframe loading="lazy" src="https://kp360-po.github.io/task-tracker/" title="Task Monitoring"></iframe></div></section><section class="container page" data-page="marketplace-performance"><div class="content"><p>KPIs, revenue trends, conversion rates, and marketplace health indicators.</p></div></section><section class="container page" data-page="top-performers"><div class="content"><h2 style="margin:0 0 .75rem">Top Performers of the Month</h2><div class="tp-grid" id="tp-page-grid"></div></div></section><!-- NEW PAGES (link grids) --><section class="container page" data-page="po-spreadsheets"><div class="content"><h2 style="margin-top:0">PO Spreadsheets</h2><div id="grid-po-spreadsheets"></div></div></section><section class="container page" data-page="po-tools"><div class="content"><h2 style="margin-top:0">PO Tools</h2><div id="grid-po-tools"></div></div></section><section class="container page" data-page="marketplaces"><div class="content"><h2 style="margin-top:0">Marketplaces</h2><div id="grid-marketplaces"></div></div></section><section class="container page" data-page="tracker"><div class="content"><h2 style="margin-top:0">Tracker</h2><div id="grid-tracker"></div></div></section><section class="container page" data-page="mailboxes"><div class="content"><h2 style="margin-top:0">Mailboxes</h2><div id="grid-mailboxes"></div></div></section><section class="container page" data-page="supplier-websites"><div class="content"><h2 style="margin-top:0">Supplier Websites</h2><div id="grid-supplier-websites"></div></div></section>
 <section class="container page" data-page="sops">
   <div class="content">
@@ -40,18 +51,20 @@ body.dark .sop-item:hover{background:rgba(255,255,255,.06)}
       </div>
     </div>
 
-    <div class="sop-layout">
-      <aside class="sop-list" aria-label="SOP list">
-        <div id="sopList"></div>
-      </aside>
+    <!-- Cards -->
+    <div class="sop-cards" id="sopCards" aria-label="SOP cards"></div>
+  </div>
 
-      <main class="sop-view">
-        <div class="sop-view-toolbar">
-          <div class="sop-view-title">
-            <strong id="sopTitle">Select an SOP</strong>
-            <span class="sop-meta" id="sopMeta"></span>
-          </div>
+  <!-- Overlay viewer -->
+  <div class="sop-overlay" id="sopOverlay" aria-hidden="true">
+    <div class="sop-modal" role="dialog" aria-modal="true" aria-label="SOP Viewer">
+      <div class="sop-modal-head">
+        <div class="sop-modal-title">
+          <strong id="sopOverlayTitle">SOP</strong>
+          <span class="sop-meta" id="sopOverlayMeta"></span>
+        </div>
 
+        <div class="sop-modal-actions">
           <div class="sop-find">
             <input id="sopFindInput" type="search" placeholder="Find in this SOP…" autocomplete="off" />
             <button class="icon-btn" id="sopFindClear" title="Clear find" aria-label="Clear find">
@@ -60,16 +73,20 @@ body.dark .sop-item:hover{background:rgba(255,255,255,.06)}
               </svg>
             </button>
           </div>
-        </div>
 
-        <div class="iframe-wrap" style="margin-top:.6rem;">
+          <button class="sop-close" id="sopOverlayClose" type="button">Close</button>
+        </div>
+      </div>
+
+      <div class="sop-modal-body">
+        <div class="iframe-wrap">
           <iframe id="sopViewer" loading="lazy" title="SOP Viewer" src="about:blank"></iframe>
         </div>
 
-        <div class="res-sub" id="sopHint" style="margin-top:.55rem">
-          Search tip: library search looks at titles/tags (and tries to index the SOP text when possible). “Find in this SOP” highlights matches in the open document.
+        <div class="res-sub" id="sopHint">
+          Search tip: library search looks at titles/tags (and indexes SOP text when possible). “Find in this SOP” highlights matches in the open document.
         </div>
-      </main>
+      </div>
     </div>
   </div>
 </section><!-- Footer --><footer id="footer">© KarParts360 PO Team 2025</footer><!-- Inlined from app.js --><script>
@@ -514,10 +531,62 @@ function indexAllSopsOnce(){
 
 function getSopById(id){ return SOP_LIBRARY.find(s => s.id === id) || null; }
 
-function renderSopList(list){
-  const host = document.getElementById('sopList');
-  if (!host) return;
-  host.innerHTML = '';
+/* ----- SOP overlay helpers ----- */
+function sopEls(){
+  return {
+    cards: document.getElementById('sopCards'),
+    overlay: document.getElementById('sopOverlay'),
+    closeBtn: document.getElementById('sopOverlayClose'),
+    title: document.getElementById('sopOverlayTitle'),
+    meta: document.getElementById('sopOverlayMeta'),
+    hint: document.getElementById('sopHint'),
+    frame: document.getElementById('sopViewer'),
+    findInput: document.getElementById('sopFindInput'),
+    findClear: document.getElementById('sopFindClear'),
+  };
+}
+
+function setActiveSopCard(id){
+  document.querySelectorAll('.sop-item').forEach(b=>{
+    b.classList.toggle('active', b.dataset.sopId === id);
+  });
+}
+
+function setSopOverlayHeader(sop){
+  const { title, meta } = sopEls();
+  if (title) title.textContent = sop ? sop.title : 'SOP';
+  if (meta)  meta.textContent  = sop ? `(${sop.file})` : '';
+}
+
+function showSopOverlay(){
+  const { overlay } = sopEls();
+  if (!overlay) return;
+  overlay.classList.add('visible');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function hideSopOverlay(){
+  const { overlay, frame, findInput, findClear } = sopEls();
+  if (!overlay) return;
+
+  overlay.classList.remove('visible');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+
+  // Reset viewer + find UI
+  if (findInput) findInput.value = '';
+  if (findClear) findClear.disabled = true;
+  try{ clearIframeHighlights(frame); }catch(_e){}
+  if (frame) frame.src = 'about:blank';
+}
+
+/* ----- SOP cards ----- */
+function renderSopCards(list){
+  const { cards } = sopEls();
+  if (!cards) return;
+  cards.innerHTML = '';
+
   (list||[]).forEach(sop=>{
     const btn = document.createElement('button');
     btn.type = 'button';
@@ -528,27 +597,15 @@ function renderSopList(list){
       <div class="meta">${sop.note || ''}${sop.tags ? ' · ' + sop.tags : ''}</div>
     `;
     btn.addEventListener('click', ()=> openSop(sop.id));
-    host.appendChild(btn);
+    cards.appendChild(btn);
   });
 
-  if (!host.children.length){
-    host.innerHTML = `<div class="res-sub" style="padding:.5rem">No SOPs matched your search.</div>`;
+  if (!cards.children.length){
+    cards.innerHTML = `<div class="res-sub" style="padding:.5rem">No SOPs matched your search.</div>`;
   }
 }
 
-function setActiveSopButton(id){
-  document.querySelectorAll('.sop-item').forEach(b=>{
-    b.classList.toggle('active', b.dataset.sopId === id);
-  });
-}
-
-function setSopHeader(sop){
-  const titleEl = document.getElementById('sopTitle');
-  const metaEl  = document.getElementById('sopMeta');
-  if (titleEl) titleEl.textContent = sop ? sop.title : 'Select an SOP';
-  if (metaEl)  metaEl.textContent  = sop ? `(${sop.file})` : '';
-}
-
+/* ----- Find-in-document (iframe highlight) ----- */
 function ensureSopIframeStyles(frame){
   try{
     const doc = frame.contentDocument;
@@ -566,7 +623,7 @@ function ensureSopIframeStyles(frame){
 
 function clearIframeHighlights(frame){
   try{
-    const doc = frame.contentDocument;
+    const doc = frame?.contentDocument;
     if (!doc) return;
     const marks = Array.from(doc.querySelectorAll('mark.kp360-sop-mark'));
     marks.forEach(m=>{
@@ -578,6 +635,7 @@ function clearIframeHighlights(frame){
 }
 
 function highlightInIframe(frame, query){
+  if (!frame) return;
   if (!query) { clearIframeHighlights(frame); return; }
   try{
     const doc = frame.contentDocument;
@@ -623,7 +681,6 @@ function highlightInIframe(frame, query){
       node.parentNode.replaceChild(frag, node);
     });
 
-    // Scroll to first match
     const first = doc.querySelector('mark.kp360-sop-mark');
     if (first && first.scrollIntoView){
       first.classList.add('active');
@@ -635,63 +692,89 @@ function highlightInIframe(frame, query){
 }
 
 const debouncedFindInIframe = debounce((q)=>{
-  const frame = document.getElementById('sopViewer');
+  const { frame } = sopEls();
   if (!frame) return;
   highlightInIframe(frame, q);
 }, 160);
 
+/* ----- Open SOP in overlay ----- */
 function openSop(id){
   const sop = getSopById(id);
-  const frame = document.getElementById('sopViewer');
-  const findInput = document.getElementById('sopFindInput');
-  const findClear = document.getElementById('sopFindClear');
+  const { frame, findInput, findClear } = sopEls();
   if (!sop || !frame) return;
 
-  setSopHeader(sop);
-  setActiveSopButton(id);
+  setSopOverlayHeader(sop);
+  setActiveSopCard(id);
 
   // reset find UI
   if (findInput) findInput.value = '';
   if (findClear) findClear.disabled = true;
 
   frame.src = new URL(sop.file, window.location.href).href;
+  frame.onload = ()=> { try{ ensureSopIframeStyles(frame); }catch(_e){} };
 
-  frame.onload = ()=>{
-    try{ ensureSopIframeStyles(frame); }catch(_e){}
-  };
+  showSopOverlay();
 
   // kick indexing in background (so future library searches include content)
   indexAllSopsOnce();
 }
 
+/* ----- Init + Search ----- */
 function initSopLibrary(){
-  // render list
-  renderSopList(SOP_LIBRARY);
+  const { overlay, closeBtn, findInput, findClear } = sopEls();
 
+  // Render cards
+  renderSopCards(SOP_LIBRARY);
+
+  // Start indexing without blocking UI
+  setTimeout(()=> indexAllSopsOnce(), 50);
+
+  // Close wiring (button, backdrop, ESC)
+  closeBtn?.addEventListener('click', hideSopOverlay);
+  overlay?.addEventListener('click', (e)=>{
+    if (e.target === overlay) hideSopOverlay();
+  });
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape' && overlay?.classList.contains('visible')) hideSopOverlay();
+  }, { passive:true });
+
+  // Library search (token-based so multi-word searches still match "related" results)
   const qInput = document.getElementById('sopLibrarySearch');
   const qClear = document.getElementById('sopLibraryClear');
-  const findInput = document.getElementById('sopFindInput');
-  const findClear = document.getElementById('sopFindClear');
-
-  // First load: start indexing without blocking UI
-  setTimeout(()=> indexAllSopsOnce(), 50);
 
   function runLibrarySearch(){
     const q = (qInput?.value || '').trim().toLowerCase();
     if (!q){
-      renderSopList(SOP_LIBRARY);
+      renderSopCards(SOP_LIBRARY);
       if (qClear) qClear.disabled = true;
       return;
     }
     if (qClear) qClear.disabled = false;
 
-    // Prefer SOP_LINKS haystacks because they may already include indexed body text
-    const matchedIds = (SOP_LINKS||[])
-      .filter(it => (it.haystack || '').includes(q))
-      .map(it => it.sopId);
+    const tokens = q.split(/\s+/).filter(Boolean);
 
-    const filtered = SOP_LIBRARY.filter(s => matchedIds.includes(s.id) || sopBaseHaystack(s).includes(q));
-    renderSopList(filtered);
+    const scored = SOP_LIBRARY.map(s=>{
+      const linkHay = (SOP_LINKS.find(x => x.sopId === s.id)?.haystack || '');
+      const hay = (sopBaseHaystack(s) + ' ' + linkHay).toLowerCase();
+
+      let score = 0;
+      tokens.forEach(t=>{
+        if (!t) return;
+        if (hay.includes(t)) score += 1;
+        if ((s.title||'').toLowerCase().includes(t)) score += 2; // title hits weigh more
+        if ((s.tags||'').toLowerCase().includes(t)) score += 1;
+      });
+
+      // Extra nudge if all tokens appear somewhere (more "related")
+      const all = tokens.every(t => hay.includes(t));
+      if (all) score += 3;
+
+      return { sop: s, score };
+    })
+    .filter(x => x.score > 0)
+    .sort((a,b)=> b.score - a.score || a.sop.title.localeCompare(b.sop.title));
+
+    renderSopCards(scored.map(x=>x.sop));
   }
 
   qInput?.addEventListener('input', debounce(runLibrarySearch, 140));
@@ -702,7 +785,7 @@ function initSopLibrary(){
   });
   if (qClear) qClear.disabled = true;
 
-  // Find in current SOP
+  // Find in current SOP (overlay)
   function runFind(){
     const q = (findInput?.value || '').trim();
     if (findClear) findClear.disabled = !q;
@@ -726,6 +809,7 @@ function initSopLibrary(){
     if (sopId) openSop(sopId);
   }catch(_e){}
 }
+
 
 
 const TAB_REGISTRY = {
